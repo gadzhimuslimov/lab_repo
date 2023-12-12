@@ -3,30 +3,28 @@ import doctest
 
 # TODO Написать 3 класса с документацией и аннотацией типов
 
-
-# Единицы измерений аргументов в соответствии с ГОСТ
 class Table:
-    def __int__(self, height: int, surface_area: float):
+    def __init__(self, height: (int, float), surface_area: float):
         """
         Создание и подготовка к работе объекта "Стол"
 
         :param height: Высота стола
         :param surface_area: Площадь поверхности стола
         :raised TypeError: Когда аргументы - нечисловые типы данных
-        :raised ValueError: Когда значения площади/высоты меньше или равны нулю
+        :raised ValueError: Когда значение площади/высоты меньше или равно нулю
 
-        Примеры:
-        >>>table = Table(1000, 1) # инициализация экземпляра класса
+        Пример:
+        >>> table = Table(800, 1.5) # инициализация экземпляра класса
         """
 
         if not isinstance(height, (int, float)):
-            raise TypeError("Аргумент не является числовым типом данных")
+            raise TypeError("Аргумент должен быть числовым типом данных")
         if height <= 0:
             raise ValueError("Некорректное значение высоты")
         self.height = height
 
         if not isinstance(surface_area, (int, float)):
-            raise TypeError("Аргумент не является числовым типом данных")
+            raise TypeError("Аргумент должен быть числовым типом данных")
         if surface_area <= 0:
             raise ValueError("Некорректное значение площади")
         self.surface_area = surface_area
@@ -39,11 +37,11 @@ class Table:
         :raised TypeError: Только целочисленный тип
         :raised ValueError: Данный параметр увеличивает высоту, поэтому не может быть отрицательным
 
-        Примеры:
-        >>>table = Table(1000, 1.5)
-        >>>table.increase_height(300)
+        Пример:
+        >>> table = Table(800, 1.5)
+        >>> table.increase_height(300)
         """
-        if not isinstance(add, int):
+        if not isinstance(add, (int, float)):
             raise TypeError("Недопустимый тип данных")
 
         if add < 0:
@@ -54,81 +52,107 @@ class Table:
         """
         Метод изменяет угол наклона поверхности
 
-        :raised TypeError: Если аргумент нецелочисленное значение
-        Примеры:
-        >>>table = Table(1000, 1.5)
-        >>>table.change_slope()
+        :raised TypeError: Если аргумент нечисловой тип данных
+
+        Пример:
+        >>> table = Table(800, 1.5)
+        >>> table.change_slope()
         """
         ...
 
 
-class Glass:
-    def __init__(self, capacity_volume: float, occupied_volume: float):
+class Rectangle:
+    def __init__(self, length: (int, float), width: (int, float)):
         """
-        Создание и подготовка к работе объекта "Стакан"
+        Создание и подготовка к работе объекта "Прямоугольник"
 
-        :param capacity_volume: Объем стакана
-        :param occupied_volume: Объем занимаемой жидкости
+        :param length: Длина
+        :param width: Ширина
+        :raised TypeError: Когда аргументы - нечисловые типы данных
+        :raised ValueError: Когда значение меньше или равно нулю
 
-        Примеры:
-        >>> glass = Glass(500, 0)  # инициализация экземпляра класса
+        Пример:
+        >>> rect = Rectangle(3, 1.5) # инициализация экземпляра класса "Прямоугольник"
         """
-        if not isinstance(capacity_volume, (int, float)):
-            raise TypeError("Объем стакана должен быть типа int или float")
-        if capacity_volume <= 0:
-            raise ValueError("Объем стакана должен быть положительным числом")
-        self.capacity_volume = capacity_volume
 
-        if not isinstance(occupied_volume, (int, float)):
-            raise TypeError("Количество жидкости должно быть int или float")
-        if occupied_volume < 0:
-            raise ValueError("Количество жидкости не может быть отрицательным числом")
-        self.occupied_volume = occupied_volume
+        if not isinstance(length, (int, float)):
+            raise TypeError("Аргумент должен быть числовым типом данных")
+        if length <= 0:
+            raise ValueError("Некорректное значение длины")
+        self.length = length
 
-    def is_empty_glass(self) -> bool:
+        if not isinstance(width, (int, float)):
+            raise TypeError("Аргумент должен быть числовым типом данных")
+        if width <= 0:
+            raise ValueError("Некорректное значение ширины")
+        self.width = width
+
+    def square(self) -> None:
         """
-        Функция которая проверяет является ли стакан пустым
+        Метод для вычисления площади.
 
-        :return: Является ли стакан пустым
+        :return: Возвращает площадь
 
-        Примеры:
-        >>> glass = Glass(500, 0)
-        >>> glass.is_empty_glass()
+        Пример:
+        >>> rect = Rectangle(4, 2)
+        >>> rect.square()
         """
-        ...
 
-    def add_water_to_glass(self, water: float) -> None:
+    def perimeter(self) -> None:
         """
-        Добавление воды в стакан.
-        :param water: Объем добавляемой жидкости
+        Метод для вычисления периметра
 
-        :raise ValueError: Если количество добавляемой жидкости превышает свободное место в стакане, то вызываем ошибку
+        :return: Возвращает периметр
 
-        Примеры:
-        >>> glass = Glass(500, 0)
-        >>> glass.add_water_to_glass(200)
+        Пример:
+        >>> rect = Rectangle(4, 2)
+        >>> rect.perimeter()
         """
-        if not isinstance(water, (int, float)):
-            raise TypeError("Добавляемая жидкость должна быть типа int или float")
-        if water < 0:
-            raise ValueError("Добавляемая жидкость должна положительным числом")
-        ...
 
-    def remove_water_from_glass(self, estimate_water: float) -> None:
+
+class Circle:
+    def __init__(self, radius: (int, float)):
         """
-        Извлечение воды из стакана.
+        Инициализация объекта "Круг"
 
-        :param estimate_water: Объем извлекаемой жидкости
-        :raise ValueError: Если количество извлекаемой жидкости превышает количество воды в стакане,
-        то возвращается ошибка.
+        :param radius: Радиус
+        :raised TypeError: Когда радиус - нечисловой типы данных
+        :raised ValueError: Когда значение радиуса меньше или равно нулю
 
-        :return: Объем реально извлеченной жидкости
-
-        Примеры:
-        >>> glass = Glass(500, 500)
-        >>> glass.remove_water_from_glass(200)
+        Пример:
+        >>> circle = Circle(5)
         """
-        ...
+
+        if not isinstance(radius, (int, float)):
+            raise TypeError("Аргумент должен быть числовым типом данных")
+        if radius <= 0:
+            raise ValueError("Некорректное значение радиуса")
+        self.radius = radius
+
+    def square(self):
+        """
+        Метод для вычисления
+        площади круга
+        Для реализации понадобиться импортировать модуль math(в частности math.pi)
+
+        :return: Возвращает площадь круга
+
+        Пример:
+        >>> circle = Circle(5)
+        >>> circle.square()
+        """
+
+    def length(self):
+        """Метод для вычисления
+        длины окружности.
+        Для реализации понадобиться импортировать модуль math(в частности math.pi)
+
+        :return: Возвращает длину окружности
+
+        Пример:
+        >>> circle = Circle(5)
+        >>> circle.length()
+        """
 
 
 if __name__ == "__main__":
